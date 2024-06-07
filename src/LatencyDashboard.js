@@ -29,13 +29,12 @@ ChartJS.register(
 
 const LatencyDashboard = () => {
   const [latencies, setLatencies] = useState([]);
+  const [timeRange, setTimeRange] = useState('24h');
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get('https://llmvitals.com/api/historical-latencies');
-
-        //const response = await axios.get('http://localhost:5001/api/historical-latencies');
         setLatencies(response.data);
       } catch (error) {
         console.error('Error fetching latencies:', error);
@@ -48,13 +47,35 @@ const LatencyDashboard = () => {
   const anthropicModels = ['claude-3-opus-20240229', 'claude-3-sonnet-20240229', 'claude-3-haiku-20240307'];
   const geminiModels = ['gemini-1.5-pro', 'gemini-1.5-flash', 'gemini-1.0-pro'];
 
+  const getFilteredLatencies = (provider, model) => {
+    const now = new Date();
+    const startTime = new Date(now);
+
+    switch (timeRange) {
+      case '3d':
+        startTime.setDate(now.getDate() - 3);
+        break;
+      case '1w':
+        startTime.setDate(now.getDate() - 7);
+        break;
+      case '1m':
+        startTime.setMonth(now.getMonth() - 1);
+        break;
+      default:
+        startTime.setDate(now.getDate() - 1);
+    }
+
+    return latencies
+      .filter(latency => latency.provider === provider && latency.model === model && new Date(latency.createdAt) >= startTime)
+      .map(latency => ({ x: new Date(latency.createdAt), y: latency.latency }));
+  };
+
   const openaiData = {
-    datasets: openaiModels.map((model, index) => ({
+    datasets: openaiModels.map((model) => ({
       label: model,
-      data: latencies
-        .filter(latency => latency.provider === 'openai' && latency.model === model)
-        .map(latency => ({ x: new Date(latency.createdAt), y: latency.latency })),
-      borderColor: `hsl(${(index * 60) % 360}, 100%, 50%)`,
+      data: getFilteredLatencies('openai', model),
+      borderColor: model === 'gpt-3.5-turbo' ? 'blue' : model === 'gpt-4' ? 'orange' : model === 'gpt-4-turbo' ? 'red' : 'lime',
+      backgroundColor: model === 'gpt-3.5-turbo' ? 'blue' : model === 'gpt-4' ? 'orange' : model === 'gpt-4-turbo' ? 'red' : 'lime',
       tension: 0.3,
       borderWidth: 1,
       pointRadius: 2,
@@ -65,10 +86,9 @@ const LatencyDashboard = () => {
   const anthropicData = {
     datasets: anthropicModels.map((model, index) => ({
       label: model,
-      data: latencies
-        .filter(latency => latency.provider === 'anthropic' && latency.model === model)
-        .map(latency => ({ x: new Date(latency.createdAt), y: latency.latency })),
+      data: getFilteredLatencies('anthropic', model),
       borderColor: `hsl(${(index * 120) % 360}, 100%, 50%)`,
+      backgroundColor: `hsl(${(index * 120) % 360}, 100%, 50%)`,
       tension: 0.3,
       borderWidth: 1,
       pointRadius: 2,
@@ -79,10 +99,9 @@ const LatencyDashboard = () => {
   const geminiData = {
     datasets: geminiModels.map((model, index) => ({
       label: model,
-      data: latencies
-        .filter(latency => latency.provider === 'google' && latency.model === model)
-        .map(latency => ({ x: new Date(latency.createdAt), y: latency.latency })),
+      data: getFilteredLatencies('google', model),
       borderColor: `hsl(${(index * 90) % 360}, 100%, 50%)`,
+      backgroundColor: `hsl(${(index * 90) % 360}, 100%, 50%)`,
       tension: 0.3,
       borderWidth: 1,
       pointRadius: 2,
@@ -91,16 +110,40 @@ const LatencyDashboard = () => {
   };
 
   const options = {
+    maintainAspectRatio: false,
+    responsive: true,
+    interaction: {
+      mode: 'index',
+      intersect: false,
+    },
+    plugins: {
+      tooltip: {
+        mode: 'index',
+        intersect: false,
+      },
+    },
     scales: {
       x: {
         type: 'time',
         time: {
-          unit: 'minute',
+          unit: 'hour',
+          displayFormats: {
+            hour: 'MMM D, HH:mm',
+          },
         },
         title: {
           display: true,
           text: 'Time',
         },
+        ticks: {
+          autoSkip: true,
+          maxRotation: 0,
+          major: {
+            enabled: true
+          },
+          align: 'start',
+          maxTicksLimit: 8
+        }
       },
       y: {
         title: {
@@ -126,25 +169,48 @@ const LatencyDashboard = () => {
         <p>
           The response times are measured by generating a maximum of 30 tokens at a temperature of 0.7 every 5 minutes.
         </p>
+  
       </div>
-      <div className="graph-container">
-  <h3>OpenAI Latency</h3>
-  <Line data={openaiData} options={options} className="latency-chart" />
-</div>
-<br />
-<div className="graph-container">
-  <h3>Anthropic Latency</h3>
-  <Line data={anthropicData} options={options} className="latency-chart" />
-</div>
-<br />
-<div className="graph-container">
-  <h3>Google Gemini Latency</h3>
-  <Line data={geminiData} options={options} className="latency-chart" />
-</div>
-      <p>
+      <div style={{ marginTop: '20px'}}>
+        <h2>OpenAI</h2>
+        <div>
+          <label htmlFor="time-range">Time Range:</label>
+          <select id="time-range" value={timeRange} onChange={(e) => setTimeRange(e.target.value)}>
+            <option value="24h">Last 24 Hours</option>
+            <option value="3d">Last 3 Days</option>
+            <option value="1w">Last 1 Week</option>
+            <option value="1m">Last 1 Month</option>
+          </select>
+        </div>
         <br></br>
-        <strong>Disclaimer:</strong> We are not affiliated with OpenAI, Google, or Anthropic. This is an independent project to track and compare the response times of their respective language model APIs.
-      </p>
+        <div className="graph-container" id="openai">
+          
+          <h3>OpenAI Latency</h3>
+          <Line data={openaiData} options={options} />
+        </div>
+      </div>
+      <div style={{ marginTop: '40px' }}>
+        <h2>Anthropic</h2>
+        <div className="graph-container" id="anthropic">
+          <h3>Anthropic Latency</h3>
+          <Line data={anthropicData} options={options} />
+        </div>
+      </div>
+      <div style={{ marginTop: '40px' }}>
+        <h2>Google Gemini</h2>
+        <div className="graph-container" id="google">
+          <h3>Google Gemini Latency</h3>
+          <Line data={geminiData} options={options} />
+        </div>
+      </div>
+      
+      <footer className="App-footer">
+        <ul>
+          <li><a href="#">Link 1</a></li>
+          <li><a href="#">Link 2</a></li>
+          <li><a href="#">Link 3</a></li>
+        </ul>
+      </footer>
     </div>
   );
 };

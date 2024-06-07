@@ -7,6 +7,30 @@
   background-color: #282c34;
   padding: 20px;
   color: white;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.App-header h1 {
+  margin: 0;
+}
+
+.App-header nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.App-header nav ul li {
+  display: inline;
+  margin-left: 10px;
+}
+
+.App-header nav ul li a {
+  color: white;
+  text-decoration: none;
 }
 
 h2 {
@@ -18,11 +42,32 @@ h3 {
 }
 
 .graph-container {
-  width: 100%;
+  width: 80%;
   height: 50vh;
   margin: 0 auto;
+  border: 1px solid black;
+
 }
 
-.latency-chart {
-  display: inline-block !important;
+.App-footer {
+  background-color: #282c34;
+  padding: 20px;
+  color: white;
+  margin-top: 40px;
+}
+
+.App-footer ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.App-footer ul li {
+  display: inline;
+  margin-right: 10px;
+}
+
+.App-footer ul li a {
+  color: white;
+  text-decoration: none;
 }
