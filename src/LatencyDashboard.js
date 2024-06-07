@@ -33,7 +33,7 @@ const LatencyDashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('/api/historical-latencies');
+        const response = await axios.get('https://llmvitals.com/api/historical-latencies');
 
         //const response = await axios.get('http://localhost:5001/api/historical-latencies');
         setLatencies(response.data);
@@ -114,7 +114,7 @@ const LatencyDashboard = () => {
   return (
     <div style={{ textAlign: 'center' }}>
       <h1>OpenAI, Anthropic and Google Gemini APIs Response Time Tracker</h1>
-      <div style={{ textAlign: 'left', margin: 'auto', width: '60%' }}>
+      <div style={{ textAlign: 'left', margin: 'auto', width: '80%' }}>
         <p>
           The 3 charts below track the response times of the main large language model APIs:
         </p>
@@ -127,20 +127,20 @@ const LatencyDashboard = () => {
           The response times are measured by generating a maximum of 30 tokens at a temperature of 0.7 every 5 minutes.
         </p>
       </div>
-      <div className="graph-container" style={{ width: '60%', margin: 'auto' }}>
-        <h3>OpenAI Latency</h3>
-        <Line data={openaiData} options={options} />
-      </div>
-      <br />
-      <div className="graph-container" style={{ width: '60%', margin: 'auto' }}>
-        <h3>Anthropic Latency</h3>
-        <Line data={anthropicData} options={options} />
-      </div>
-      <br />
-      <div className="graph-container" style={{ width: '60%', margin: 'auto' }}>
-        <h3>Google Gemini Latency</h3>
-        <Line data={geminiData} options={options} />
-      </div>
+      <div className="graph-container">
+  <h3>OpenAI Latency</h3>
+  <Line data={openaiData} options={options} className="latency-chart" />
+</div>
+<br />
+<div className="graph-container">
+  <h3>Anthropic Latency</h3>
+  <Line data={anthropicData} options={options} className="latency-chart" />
+</div>
+<br />
+<div className="graph-container">
+  <h3>Google Gemini Latency</h3>
+  <Line data={geminiData} options={options} className="latency-chart" />
+</div>
       <p>
         <br></br>
         <strong>Disclaimer:</strong> We are not affiliated with OpenAI, Google, or Anthropic. This is an independent project to track and compare the response times of their respective language model APIs.
