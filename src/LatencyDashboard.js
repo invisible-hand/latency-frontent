@@ -46,6 +46,7 @@ const LatencyDashboard = () => {
   const openaiModels = ['gpt-3.5-turbo', 'gpt-4', 'gpt-4-turbo', 'gpt-4o'];
   const anthropicModels = ['claude-3-opus-20240229', 'claude-3-sonnet-20240229', 'claude-3-haiku-20240307'];
   const geminiModels = ['gemini-1.5-pro', 'gemini-1.5-flash', 'gemini-1.0-pro'];
+  const groqModels = ['llama3-8b-8192', 'llama3-70b-8192', 'mixtral-8x7b-32768'];
 
   const getFilteredLatencies = (provider, model) => {
     const now = new Date();
@@ -109,6 +110,21 @@ const LatencyDashboard = () => {
     })),
   };
 
+
+  const groqData = {
+    datasets: groqModels.map((model, index) => ({
+      label: model,
+      data: getFilteredLatencies('groq', model),
+      borderColor: `hsl(${(index * 60) % 360}, 100%, 50%)`,
+      backgroundColor: `hsl(${(index * 60) % 360}, 100%, 50%)`,
+      tension: 0.3,
+      borderWidth: 1,
+      pointRadius: 2,
+      pointHoverRadius: 4,
+    })),
+  };
+
+
   const options = {
     maintainAspectRatio: false,
     responsive: true,
@@ -159,15 +175,16 @@ const LatencyDashboard = () => {
       <h1>OpenAI, Anthropic and Google Gemini APIs Response Time Tracker</h1>
       <div style={{ textAlign: 'left', margin: 'auto', width: '80%' }}>
         <p>
-          The 3 charts below track the response times of the main large language model APIs:
+          The 4 charts below track the response times of the main large language model APIs:
         </p>
         <ul>
           <li>OpenAI (GPT-4, GPT-3.5-turbo, GPT-4o and GPT-4-turbo)</li>
           <li>Anthropic (Opus, Sonnet, Haiku)</li>
           <li>Google Gemini (1.5 Pro, 1.5 Flash, 1.0 Pro)</li>
+          <li>Groq (LLaMA3 8b-8192, LLaMA3 70b-8192, Mixtral 8x7b-32768)</li>
         </ul>
         <p>
-          The response times are measured by generating a maximum of 30 tokens at a temperature of 0.7 every 5 minutes.
+          The response times are measured by generating a maximum of 100 tokens at a temperature of 0.7 every 5 minutes.
         </p>
   
       </div>
@@ -201,6 +218,13 @@ const LatencyDashboard = () => {
         <div className="graph-container" id="google">
           <h3>Google Gemini Latency</h3>
           <Line data={geminiData} options={options} />
+        </div>
+      </div>
+      <div style={{ marginTop: '40px' }}>
+        <h2>Groq</h2>
+        <div className="graph-container" id="groq">
+          <h3>Groq Latency</h3>
+          <Line data={groqData} options={options} />
         </div>
       </div>
       
