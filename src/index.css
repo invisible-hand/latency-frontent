@@ -11,3 +11,26 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+h1 {
+  font-size: 24px;
+  color: #333;
+}
+
+.headertext {
+  font-size: 24px;
+  font-weight: 800;
+ 
+}
+
+h2 {
+  font-size: 20px;
+  color: #555;
+}
+
+.article p {
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* Ensure container and panels are styled as previously defined */

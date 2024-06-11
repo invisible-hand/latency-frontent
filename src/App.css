@@ -11,6 +11,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding-left: 100px;
 }
 
 .App-header h1 {
@@ -31,6 +32,10 @@
 .App-header nav ul li a {
   color: white;
   text-decoration: none;
+}
+
+.header-nav {
+  padding-right: 120px;
 }
 
 h2 {
@@ -70,4 +75,24 @@ h3 {
 .App-footer ul li a {
   color: white;
   text-decoration: none;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: white;
+}
+
+.logo img {
+  height: 30px;
+  margin-right: 10px;
+  filter: invert(1);
+}
+
+.main-bottom {
+  text-align: left;
+   margin: auto; 
+   width: 80%;
+   line-height: 140%;
 }

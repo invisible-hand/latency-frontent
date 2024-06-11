@@ -115,8 +115,8 @@ const LatencyDashboard = () => {
     datasets: groqModels.map((model, index) => ({
       label: model,
       data: getFilteredLatencies('groq', model),
-      borderColor: `hsl(${(index * 60) % 360}, 100%, 50%)`,
-      backgroundColor: `hsl(${(index * 60) % 360}, 100%, 50%)`,
+      borderColor: `hsl(${(index * 120) % 360}, 100%, 50%)`,
+      backgroundColor: `hsl(${(index * 120) % 360}, 100%, 50%)`,
       tension: 0.3,
       borderWidth: 1,
       pointRadius: 2,
@@ -184,7 +184,7 @@ const LatencyDashboard = () => {
           <li>Groq (LLaMA3 8b-8192, LLaMA3 70b-8192, Mixtral 8x7b-32768)</li>
         </ul>
         <p>
-          The response times are measured by generating a maximum of 100 tokens at a temperature of 0.7 every 5 minutes.
+          The response times are measured by generating a maximum of 100 tokens at a temperature of 0.7 every 10 minutes.
         </p>
   
       </div>
@@ -227,12 +227,28 @@ const LatencyDashboard = () => {
           <Line data={groqData} options={options} />
         </div>
       </div>
-      
+<br>
+</br>
+<div className='main-bottom'>
+<h2>Why Monitor Response Times?</h2>
+<p>Understanding the average response times for APIs of major LLM providers like OpenAI, Google, Anthropic, and Groq is crucial for several technical reasons:</p>
+
+<ul>
+<li><strong>Performance and User Experience</strong>: Response time directly impacts the performance and user experience of LLM-powered applications. Faster response times ensure a smooth and efficient user interaction, while slower times can lead to frustration and decreased engagement.</li>
+<li><strong>Issue Identification and Optimization</strong>: Monitoring response times helps identify performance bottlenecks and areas for improvement. Providers can optimize their infrastructure and algorithms to ensure reliable and efficient service.</li>
+<li><strong>Cost Optimization and Resource Allocation</strong>: Faster response times enable more efficient resource utilization, potentially reducing costs. Comparing response times allows businesses to select providers that offer the best balance between performance and cost-effectiveness.</li>
+<li><strong>Scalability Planning</strong>: Understanding expected response times is essential for designing scalable applications. It helps in planning infrastructure growth and ensuring long-term performance as demand increases.</li>
+<li><strong>Competitive Advantage</strong>: Staying informed about response times of major LLM providers helps businesses make data-driven decisions and partner with the most reliable and performant providers, maintaining a competitive edge in the market.</li>
+</ul>
+<p>
+In summary, monitoring and comparing average response times of LLM APIs is vital for ensuring optimal performance, cost-effectiveness, scalability, and staying competitive in the rapidly evolving LLM landscape.
+</p>   
+</div>
       <footer className="App-footer">
         <ul>
-          <li><a href="#">Link 1</a></li>
+          <li><a href="blog-post1.html"> • Staff Engineer's Guide to Large Language Model</a></li><br></br>
           <li><a href="#">Link 2</a></li>
-          <li><a href="#">Link 3</a></li>
+
         </ul>
       </footer>
     </div>

@@ -7,12 +7,17 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>LLM Vitals</h1>
-        <nav>
+      <a href="/" className="logo">
+          <img src="/favicon.ico" alt="LLM Vitals Logo" />
+          <p className='headertext'>LLM Vitals</p>
+        </a>
+
+        <nav class="header-nav">
           <ul>
             <li><a href="#openai">OpenAI</a></li>
             <li><a href="#anthropic">Anthropic</a></li>
             <li><a href="#google">Google</a></li>
+            <li><a href="#groq">Groq</a></li>
           </ul>
         </nav>
       </header>
