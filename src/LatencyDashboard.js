@@ -246,8 +246,9 @@ In summary, monitoring and comparing average response times of LLM APIs is vital
 </div>
       <footer className="App-footer">
         <ul>
-          <li><a href="blog-post1.html"> • Staff Engineer's Guide to Large Language Model</a></li><br></br>
-          <li><a href="#">Link 2</a></li>
+          <li><a href="staff-engineers-guide-to-large-language-models.html">• Staff Engineer's Guide to Large Language Model</a></li><br></br>
+          <li><a href="large-language-models-for-product-managers.html">• Large Language Models for Product Managers</a></li><br></br>
+          <li><a href="ctos-guide-to-large-language-models.html">• CTO's Guide to Large Language Models</a></li>
 
         </ul>
       </footer>
