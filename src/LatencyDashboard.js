@@ -44,7 +44,12 @@ const LatencyDashboard = () => {
   }, []);
 
   const openaiModels = ['gpt-3.5-turbo', 'gpt-4', 'gpt-4-turbo', 'gpt-4o'];
-  const anthropicModels = ['claude-3-opus-20240229', 'claude-3-sonnet-20240229', 'claude-3-haiku-20240307', 'claude-3-5-sonnet-20240620'];
+  const anthropicModels = [
+    'claude-3-opus-20240229',
+    'claude-3-sonnet-20240229',
+    'claude-3-haiku-20240307',
+    'claude-3-5-sonnet-20240620'
+  ];
   const geminiModels = ['gemini-1.5-pro', 'gemini-1.5-flash', 'gemini-1.0-pro'];
   const groqModels = ['llama3-8b-8192', 'llama3-70b-8192', 'mixtral-8x7b-32768'];
 
@@ -75,8 +80,8 @@ const LatencyDashboard = () => {
     datasets: openaiModels.map((model) => ({
       label: model,
       data: getFilteredLatencies('openai', model),
-      borderColor: model === 'gpt-3.5-turbo' ? 'blue' : model === 'gpt-4' ? 'orange' : model === 'gpt-4-turbo' ? 'red' : 'lime',
-      backgroundColor: model === 'gpt-3.5-turbo' ? 'blue' : model === 'gpt-4' ? 'orange' : model === 'gpt-4-turbo' ? 'red' : 'lime',
+      borderColor: model === 'gpt-3.5-turbo' ? 'blue' : model === 'gpt-4' ? 'black' : model === 'gpt-4-turbo' ? 'red' : 'lime',
+      backgroundColor: model === 'gpt-3.5-turbo' ? 'blue' : model === 'gpt-4' ? 'black' : model === 'gpt-4-turbo' ? 'red' : 'lime',
       tension: 0.3,
       borderWidth: 1,
       pointRadius: 2,
@@ -85,16 +90,35 @@ const LatencyDashboard = () => {
   };
   
   const anthropicData = {
-    datasets: anthropicModels.map((model, index) => ({
-      label: model,
-      data: getFilteredLatencies('anthropic', model),
-      borderColor: `hsl(${(index * 120) % 360}, 100%, 50%)`,
-      backgroundColor: `hsl(${(index * 120) % 360}, 100%, 50%)`,
-      tension: 0.3,
-      borderWidth: 1,
-      pointRadius: 2,
-      pointHoverRadius: 4,
-    })),
+    datasets: anthropicModels.map((model, index) => {
+      let color;
+      switch (model) {
+        case 'claude-3-opus-20240229':
+          color = 'rgb(255, 0, 0)'; // Bright Red
+          break;
+        case 'claude-3-sonnet-20240229':
+          color = 'rgb(0, 0, 255)'; // Bright Blue
+          break;
+        case 'claude-3-haiku-20240307':
+          color = 'rgb(0, 255, 0)'; // Bright Green
+          break;
+        case 'claude-3-5-sonnet-20240620':
+          color = 'rgb(255, 165, 0)'; // Orange
+          break;
+        default:
+          color = `hsl(${(index * 90) % 360}, 100%, 50%)`;
+      }
+      return {
+        label: model,
+        data: getFilteredLatencies('anthropic', model),
+        borderColor: color,
+        backgroundColor: color,
+        tension: 0.3,
+        borderWidth: 1,
+        pointRadius: 2,
+        pointHoverRadius: 4,
+      };
+    }),
   };
   
   const geminiData = {
@@ -137,6 +161,10 @@ const LatencyDashboard = () => {
         mode: 'index',
         intersect: false,
       },
+    },
+    legend: {
+      display: true,
+      position: 'top',
     },
     scales: {
       x: {
