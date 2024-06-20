@@ -34,7 +34,7 @@ const LatencyDashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('https://llmvitals.com/api/historical-latencies');
+        const response = await axios.get('https://www.llmvitals.com/api/historical-latencies');
         setLatencies(response.data);
       } catch (error) {
         console.error('Error fetching latencies:', error);
