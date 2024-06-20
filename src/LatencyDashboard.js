@@ -44,7 +44,7 @@ const LatencyDashboard = () => {
   }, []);
 
   const openaiModels = ['gpt-3.5-turbo', 'gpt-4', 'gpt-4-turbo', 'gpt-4o'];
-  const anthropicModels = ['claude-3-opus-20240229', 'claude-3-sonnet-20240229', 'claude-3-haiku-20240307'];
+  const anthropicModels = ['claude-3-opus-20240229', 'claude-3-sonnet-20240229', 'claude-3-haiku-20240307', 'claude-3-5-sonnet-20240620'];
   const geminiModels = ['gemini-1.5-pro', 'gemini-1.5-flash', 'gemini-1.0-pro'];
   const groqModels = ['llama3-8b-8192', 'llama3-70b-8192', 'mixtral-8x7b-32768'];
 
@@ -179,7 +179,7 @@ const LatencyDashboard = () => {
         </p>
         <ul>
           <li>OpenAI (GPT-4, GPT-3.5-turbo, GPT-4o and GPT-4-turbo)</li>
-          <li>Anthropic (Opus, Sonnet, Haiku)</li>
+          <li>Anthropic (Opus, Sonnet, Haiku, Claude 3.5 Sonnet)</li>
           <li>Google Gemini (1.5 Pro, 1.5 Flash, 1.0 Pro)</li>
           <li>Groq (LLaMA3 8b-8192, LLaMA3 70b-8192, Mixtral 8x7b-32768)</li>
         </ul>
